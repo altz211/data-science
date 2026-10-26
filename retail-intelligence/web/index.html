@@ -3,47 +3,46 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Retail Intelligence</title>
+  <title>Retail Intelligence | KPI dashboard</title>
+  <meta name="description" content="Retail performance dashboard with sales KPIs, period comparisons, market breakdowns and model evaluation.">
   <link rel="stylesheet" href="assets/style.css">
   <script type="module" src="assets/app.js"></script>
 </head>
 <body>
-  <header>
-    <a class="brand" href="#">ri<span>.</span></a>
-    <div><strong>Retail Intelligence</strong><small>Product & customer workspace</small></div>
-    <span class="badge">HISTORICAL DATA</span>
-  </header>
-  <main>
-    <section class="intro">
-      <p class="eyebrow">REAL TRANSACTIONS / REPRODUCIBLE MODELS</p>
-      <h1>Understand the trade.<br>Plan the next move.</h1>
-      <p>Explore historical sales, inspect forecasts and test recommendations against subsequent purchases.</p>
-      <p id="status" role="status">Loading saved analysis…</p>
-    </section>
-    <nav aria-label="Dashboard sections">
-      <button data-tab="overview" aria-pressed="true">Overview</button>
-      <button data-tab="forecast" aria-pressed="false">Sales forecasts</button>
-      <button data-tab="customers" aria-pressed="false">Recommendations</button>
-      <button data-tab="models" aria-pressed="false">Model results</button>
+  <a class="skip" href="#main">Skip to dashboard</a>
+  <aside class="sidebar">
+    <a class="brand" href="./"><span class="brand-mark">ri.</span><span>Retail<br>Intelligence</span></a>
+    <p class="nav-label">WORKSPACE</p>
+    <nav aria-label="Workspace">
+      <button data-view="overview" aria-pressed="true"><span aria-hidden="true">▦</span> KPI overview</button>
+      <button data-view="forecast" aria-pressed="false"><span aria-hidden="true">↗</span> Sales forecasts</button>
+      <button data-view="models" aria-pressed="false"><span aria-hidden="true">◈</span> Model performance</button>
+      <button data-view="source" aria-pressed="false"><span aria-hidden="true">≡</span> Data & definitions</button>
     </nav>
-    <section id="overview" class="tab">
-      <div id="metrics" class="metrics"></div>
-      <article class="panel"><div class="panel-title"><h2>Sales over time</h2><span>Positive purchases · GBP</span></div><div id="sales-chart"></div><p class="note">The last calendar month is incomplete. Credit invoices and fee codes are excluded; these figures are sales from valid positive purchases, not profit or net revenue.</p></article>
-      <article class="panel"><div class="panel-title"><h2>Product performance</h2><label>Find a product <input id="search" type="search" placeholder="Product name or code"></label></div><p class="note">Top 500 products by positive purchase sales across the full historical dataset.</p><div class="table-wrap"><table><thead><tr><th>Product</th><th>Units</th><th>Orders</th><th>Sales GBP</th></tr></thead><tbody id="products"></tbody></table></div></article>
-    </section>
-    <section id="forecast" class="tab" hidden>
-      <article class="panel"><div class="panel-title"><div><h2>Four weeks ahead</h2><p id="forecast-scope" class="note"></p></div><label>Product <select id="product"></select></label></div><div id="forecast-chart"></div><div class="legend"><span>● Actual</span><span>━ Selected model</span><span>┄ Baseline</span></div><p class="note">This chart shows untouched holdout results. All four predictions were made from one origin. No uncertainty intervals have been calibrated yet.</p><div id="future"></div></article>
-    </section>
-    <section id="customers" class="tab" hidden>
-      <article class="panel"><div class="panel-title"><div><h2>Next-product discovery</h2><p id="recommendation-scope" class="note"></p></div><label>Customer alias <select id="customer"></select></label></div><p class="note">Anonymised aliases for 200 historical customers. Previously purchased products are excluded. This is an offline historical experiment.</p><div id="recommendations" class="product-grid"></div><div id="customer-note" class="note"></div></article>
-    </section>
-    <section id="models" class="tab" hidden>
-      <article class="panel"><h2>Forecast validation</h2><p class="note">Model selection uses validation MAE. Only the selected model is evaluated on the final test period, alongside the baseline.</p><div id="forecast-results"></div></article>
-      <article class="panel"><h2>Recommendation evaluation</h2><div id="recommendation-results"></div></article>
-      <article class="panel"><h2>Data quality</h2><div id="audit"></div></article>
-    </section>
-  </main>
-  <footer>Source: Chen, D. (2012), <a href="https://doi.org/10.24432/C5CG6D">Online Retail II</a> · CC BY 4.0 · Historical UK retailer data, 2009–2011.</footer>
-  <noscript>Enable JavaScript to explore the saved results.</noscript>
+    <div class="sidebar-bottom"><span class="source-dot"></span> Real transaction data<p>Online Retail II<br>2009–2011 · GBP</p><a href="https://github.com/altz211/data-science/tree/main/retail-intelligence">View project source ↗</a></div>
+  </aside>
+  <div class="app-shell">
+    <header class="topbar"><span>Analytics <span class="separator">/</span> <strong id="breadcrumb">KPI overview</strong></span><span class="historical"><i></i> Historical dataset</span></header>
+    <main id="main">
+      <div class="page-heading"><div><p class="eyebrow">RETAIL INTELLIGENCE</p><h1 id="page-title">Retail performance</h1><p id="page-subtitle">Sales, customer activity and product performance at a glance.</p></div><button id="download" class="export-button">↓ Export view</button></div>
+      <section id="overview" class="view">
+        <div class="filter-bar"><label>Reporting period<select id="period" aria-label="Reporting period"></select></label><label>Market<select id="market" aria-label="Market"></select></label><p id="comparison" role="status">Loading KPI results…</p><button id="reset" class="text-button">Reset filters</button></div>
+        <div class="kpi-grid" id="metrics" aria-live="polite"></div>
+        <div class="dashboard-grid">
+          <article class="panel trend-panel"><div class="panel-heading"><div><h2>Sales performance</h2><p id="chart-period"></p></div><div class="segmented" aria-label="Trend metric"><button data-metric="sales_gbp" aria-pressed="true">Sales</button><button data-metric="orders" aria-pressed="false">Orders</button><button data-metric="units" aria-pressed="false">Units</button></div></div><div class="chart-legend"><span class="current-key">Selected period</span><span class="previous-key">Previous period</span><small id="chart-unit"></small></div><div id="trend"></div><div id="chart-detail" class="chart-detail" aria-live="polite">Hover or focus a point to inspect daily values.</div></article>
+          <article class="panel market-panel"><div class="panel-heading"><div><h2>Sales by market</h2><p>Share of selected-period sales</p></div><span class="mini-label">GBP</span></div><div id="market-bars" class="ranked-bars"></div><p class="note">Select a market to focus the dashboard.</p></article>
+          <div class="secondary-grid" id="secondary"></div>
+          <article class="panel product-panel"><div class="panel-heading"><div><h2>Top products</h2><p>Ranked by merchandise sales · selected filters</p></div><label class="search-label"><span class="sr-only">Find a product in the top 100</span><input id="search" type="search" placeholder="Search top 100 products"></label></div><div class="table-wrap"><table><thead><tr><th>Product</th><th>Sales</th><th>Units</th><th>Orders</th><th>Sales share</th></tr></thead><tbody id="products"></tbody></table></div><div class="table-footer"><span id="table-count"></span><div><button id="previous-page" aria-label="Previous product page">←</button><span id="page-number"></span><button id="next-page" aria-label="Next product page">→</button></div></div></article>
+          <div class="right-column"><article class="panel customer-panel"><div class="panel-heading"><div><h2>Customer mix</h2><p>Among identified active customers</p></div></div><div id="customer-mix"></div><p class="note">Returning = a purchase observed before the selected period. Missing customer IDs are excluded from this split.</p></article><article class="panel activity-panel"><div class="panel-heading"><div><h2>Weekly rhythm</h2><p>Average sales per observed calendar day</p></div></div><div id="weekday-bars"></div></article></div>
+        </div>
+        <p class="scope-note" id="scope-note"></p>
+      </section>
+      <section id="forecast" class="view" hidden><article class="panel"><div class="panel-heading"><div><h2>Four weeks ahead</h2><p id="forecast-scope"></p></div><label>Product<select id="product"></select></label></div><div id="forecast-chart"></div><div class="chart-legend"><span>Actual</span><span class="current-key">Selected model</span><span class="previous-key">Baseline</span></div><p class="note">Fixed historical holdout. All four predictions use one forecast origin; point estimates have no calibrated uncertainty interval.</p><div id="future"></div></article></section>
+      <section id="models" class="view" hidden><div class="model-grid"><article class="panel"><h2>Forecast validation & holdout</h2><p class="note">Select on validation MAE, then evaluate once on the final holdout.</p><div id="forecast-results"></div></article><article class="panel"><h2>Recommendation benchmark</h2><div id="recommendation-results"></div></article></div></section>
+      <section id="source" class="view" hidden><article class="panel definitions"><h2>Metric definitions</h2><dl><dt>Merchandise sales</dt><dd>Sum of quantity × unit price in GBP for positive purchases, excluding credit invoices and fee codes. This is not net revenue or profit.</dd><dt>Orders & average order value</dt><dd>Orders are distinct purchase invoice numbers. Average order value is merchandise sales divided by orders, including orders with missing customer IDs.</dd><dt>Active customers</dt><dd>Distinct nonmissing customer IDs purchasing during the selected period and market. Customers are counted directly for each slice, not summed across days.</dd><dt>Returning share</dt><dd>Identified active customers whose first observed purchase predates the reporting period, divided by all identified active customers in that slice. Earlier purchases may be in another market.</dd><dt>Period comparison</dt><dd>Monthly reporting compares with the previous month. Partial final-month reporting compares the same elapsed days. Full months use each month's complete calendar length; no trading-day adjustment. All-history reporting has no prior-period comparison.</dd><dt>Data boundaries</dt><dd>Observations run from 1 December 2009 through 9 December 2011. December 2011 is partial. Margin, stock availability, conversion and budget targets are not available in this dataset.</dd></dl></article><article class="panel"><h2>Data quality & provenance</h2><div id="audit"></div><p class="note">Source: Chen, D. (2012), <a href="https://doi.org/10.24432/C5CG6D">Online Retail II</a>, CC BY 4.0. Original observations remain unchanged; SQL defines the reporting views.</p></article></section>
+      <footer><span>Online Retail II · Real historical transactions · GBP</span><a href="https://github.com/altz211/data-science/tree/main/retail-intelligence">SQL, notebooks & models ↗</a></footer>
+    </main>
+  </div>
+  <noscript>Enable JavaScript to explore the KPI dashboard.</noscript>
 </body>
 </html>
