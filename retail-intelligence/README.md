@@ -1,31 +1,30 @@
 # Retail Intelligence
 
-Real Online Retail II transactions, product sales forecasts and customer recommendations.
+Retail sales, customers, products and models using 1.07 million Online Retail II transaction lines.
 
-[Open the dashboard](https://altz211.github.io/data-science/retail-intelligence/)
+[Dashboard](https://altz211.github.io/data-science/retail-intelligence/) · [Findings](docs/report.md) · [Methodology](docs/methodology.md) · [Notebook](notebooks/walkthrough.ipynb)
 
 ## Run
 
-1. Create a Python 3.11+ environment.
-2. `pip install -e ".[notebooks,test]"`
-3. `python -m retail.pipeline` — download data, build SQL views, train and evaluate models, export dashboard results.
-4. `python -m uvicorn retail.api:app --reload`
-5. Open http://localhost:8000.
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt -e .
+python -m retail
+uvicorn retail.api:app --reload
+pytest
+```
 
-The included dashboard snapshot works without rebuilding: `python -m http.server 8000 --directory web`. Run the pipeline first to generate the recommendation model and customer examples; these files are not published in this repository.
-
-Tests: `python -m unittest discover -s tests`.
+Use `python -m retail --source online_retail_II.xlsx` for a local copy, or `--skip-models` to reuse saved model results.
+For the static dashboard, run `python -m http.server --directory web`.
 
 ## Decisions
 
-- Start with actual transactions and temporal evaluation.
-- Compare a four-week sales baseline with boosted trees and a two-hidden-layer neural network.
-- Recommend unseen products using purchase similarity, with a popularity benchmark.
-- Keep notebooks for inspection and scripts for repeatable runs.
-- Finalise the product scope and interface together before deployment.
+- Keep SQL reporting views and the Python pipeline together in this project folder.
+- Serve saved aggregate results on GitHub Pages; the API and model training run locally.
+- Compare forecasts with simple baselines. Finish tuning outcomes before the holdout starts.
+- Keep all credit adjustments visible. Their size does not identify the reason for a credit.
+- Treat recommendations and inventory actions as ideas to test, rather than proven sales uplift.
 
-Dataset: Chen, D. (2012), [Online Retail II](https://doi.org/10.24432/C5CG6D), CC BY 4.0.
-
-See [decisions](docs/decisions.md) for definitions and remaining work.
-
-GitHub Pages serves the saved analysis and predictions. Run the Python API locally to use the model endpoints. The shared repository workflow tests this project and publishes its web folder.
+Data: [Online Retail II](https://doi.org/10.24432/C5CG6D), Chen (2012), UCI, CC BY 4.0.
+Charts: Apache ECharts 5.5.1, Apache-2.0; bundled locally with its license and notice.

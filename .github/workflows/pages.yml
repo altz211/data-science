@@ -1,15 +1,20 @@
 name: Test and deploy
+
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
 concurrency:
   group: pages
   cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -20,27 +25,26 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
-      - run: pip install -r requirements.txt
-      - run: python -m unittest discover -s tests
-        env:
-          OMP_NUM_THREADS: '2'
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt -e .
+      # Unit tests run on small synthetic data; the dashboard-data tests check
+      # the committed JSON reconciles before it gets published.
+      - run: pytest -q
+
   deploy:
     needs: test
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
       - run: python scripts/build_pages.py
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
-      - name: Publish
-        id: deployment
+      - id: deployment
         uses: actions/deploy-pages@v4

@@ -2,4 +2,4 @@
 
 A collection of data science projects.
 
-- [Retail Intelligence](https://altz211.github.io/data-science/retail-intelligence/)
+- [Retail Intelligence](retail-intelligence/) · [Dashboard](https://altz211.github.io/data-science/retail-intelligence/)

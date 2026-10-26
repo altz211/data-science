@@ -3,3 +3,8 @@ dist/
 __pycache__/
 *.egg-info/
 *.log
+.pytest_cache/
+.openai/
+**/data/raw/
+**/data/models/
+*.duckdb*
