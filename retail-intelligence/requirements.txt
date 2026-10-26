@@ -1,0 +1,14 @@
+pandas==2.2.3
+numpy==2.3.5
+scipy==1.17.0
+openpyxl==3.1.5
+duckdb==1.5.6
+scikit-learn==1.8.0
+joblib==1.5.3
+fastapi==0.162.0
+uvicorn==0.54.0
+nbformat==5.11.1
+nbclient==0.11.0
+ipykernel==7.4.0
+matplotlib==3.10.8
+httpx==0.28.1

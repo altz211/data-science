@@ -1,0 +1,14 @@
+{
+  "item_similarity": {
+    "recall_at_10": 0.056911275658158775,
+    "ndcg_at_10": 0.0655655183630467,
+    "evaluated_customers": 1238
+  },
+  "popularity": {
+    "recall_at_10": 0.021382167863190634,
+    "ndcg_at_10": 0.031842098866797515,
+    "evaluated_customers": 1238
+  },
+  "scope": "Returning customers with unseen purchases in the training top-1500 catalogue. Previously purchased products excluded; not all-customer performance.",
+  "cutoff": "2011-11-07"
+}

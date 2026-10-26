@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Retail Intelligence</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script type="module" src="assets/app.js"></script>
+</head>
+<body>
+  <header>
+    <a class="brand" href="#">ri<span>.</span></a>
+    <div><strong>Retail Intelligence</strong><small>Product & customer workspace</small></div>
+    <span class="badge">HISTORICAL DATA</span>
+  </header>
+  <main>
+    <section class="intro">
+      <p class="eyebrow">REAL TRANSACTIONS / REPRODUCIBLE MODELS</p>
+      <h1>Understand the trade.<br>Plan the next move.</h1>
+      <p>Explore historical sales, inspect forecasts and test recommendations against subsequent purchases.</p>
+      <p id="status" role="status">Loading saved analysis…</p>
+    </section>
+    <nav aria-label="Dashboard sections">
+      <button data-tab="overview" aria-pressed="true">Overview</button>
+      <button data-tab="forecast" aria-pressed="false">Sales forecasts</button>
+      <button data-tab="customers" aria-pressed="false">Recommendations</button>
+      <button data-tab="models" aria-pressed="false">Model results</button>
+    </nav>
+    <section id="overview" class="tab">
+      <div id="metrics" class="metrics"></div>
+      <article class="panel"><div class="panel-title"><h2>Sales over time</h2><span>Positive purchases · GBP</span></div><div id="sales-chart"></div><p class="note">The last calendar month is incomplete. Credit invoices and fee codes are excluded; these figures are sales from valid positive purchases, not profit or net revenue.</p></article>
+      <article class="panel"><div class="panel-title"><h2>Product performance</h2><label>Find a product <input id="search" type="search" placeholder="Product name or code"></label></div><p class="note">Top 500 products by positive purchase sales across the full historical dataset.</p><div class="table-wrap"><table><thead><tr><th>Product</th><th>Units</th><th>Orders</th><th>Sales GBP</th></tr></thead><tbody id="products"></tbody></table></div></article>
+    </section>
+    <section id="forecast" class="tab" hidden>
+      <article class="panel"><div class="panel-title"><div><h2>Four weeks ahead</h2><p id="forecast-scope" class="note"></p></div><label>Product <select id="product"></select></label></div><div id="forecast-chart"></div><div class="legend"><span>● Actual</span><span>━ Selected model</span><span>┄ Baseline</span></div><p class="note">This chart shows untouched holdout results. All four predictions were made from one origin. No uncertainty intervals have been calibrated yet.</p><div id="future"></div></article>
+    </section>
+    <section id="customers" class="tab" hidden>
+      <article class="panel"><div class="panel-title"><div><h2>Next-product discovery</h2><p id="recommendation-scope" class="note"></p></div><label>Customer alias <select id="customer"></select></label></div><p class="note">Anonymised aliases for 200 historical customers. Previously purchased products are excluded. This is an offline historical experiment.</p><div id="recommendations" class="product-grid"></div><div id="customer-note" class="note"></div></article>
+    </section>
+    <section id="models" class="tab" hidden>
+      <article class="panel"><h2>Forecast validation</h2><p class="note">Model selection uses validation MAE. Only the selected model is evaluated on the final test period, alongside the baseline.</p><div id="forecast-results"></div></article>
+      <article class="panel"><h2>Recommendation evaluation</h2><div id="recommendation-results"></div></article>
+      <article class="panel"><h2>Data quality</h2><div id="audit"></div></article>
+    </section>
+  </main>
+  <footer>Source: Chen, D. (2012), <a href="https://doi.org/10.24432/C5CG6D">Online Retail II</a> · CC BY 4.0 · Historical UK retailer data, 2009–2011.</footer>
+  <noscript>Enable JavaScript to explore the saved results.</noscript>
+</body>
+</html>

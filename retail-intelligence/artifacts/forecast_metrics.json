@@ -1,0 +1,35 @@
+{
+  "validation": {
+    "boosted": {
+      "mae_units": 133.33875375586473,
+      "wape_pct": 51.540185056220864,
+      "convergence_warning": false
+    },
+    "neural": {
+      "mae_units": 153.24318504157404,
+      "wape_pct": 59.23395781925876,
+      "convergence_warning": false
+    },
+    "baseline": {
+      "mae_units": 146.40833333333333,
+      "wape_pct": 56.59204380737639
+    }
+  },
+  "test": {
+    "selected": {
+      "mae_units": 165.7065911618455,
+      "wape_pct": 42.87270852163916
+    },
+    "baseline": {
+      "mae_units": 176.22916666666666,
+      "wape_pct": 45.59517906039111
+    }
+  },
+  "selected_model": "boosted",
+  "validation_start": "2011-10-10",
+  "test_start": "2011-11-07",
+  "test_end": "2011-11-28",
+  "products": 60,
+  "target": "Weekly observed positive unit sales; not unconstrained demand.",
+  "design": "Fixed-origin four-week forecasts. Top products selected before validation. No future sales features."
+}
